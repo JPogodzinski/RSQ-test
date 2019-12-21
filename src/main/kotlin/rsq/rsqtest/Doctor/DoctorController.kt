@@ -4,7 +4,8 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/doctors")
-class DoctorController(val repository: DoctorRepository) {
+class DoctorController(val repository: DoctorRepository)
+{
     @GetMapping
     fun getAll():List<Doctor>{
         return repository.findAll()

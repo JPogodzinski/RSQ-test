@@ -7,7 +7,8 @@ import java.time.LocalTime
 
 @RestController
 @RequestMapping("/visits")
-class VisitController(val repository: VisitRepository, val patientRepository: PatientRepository) {
+class VisitController(val repository: VisitRepository, val patientRepository: PatientRepository)
+{
 
     @GetMapping
     fun getAll():List<Visit>{

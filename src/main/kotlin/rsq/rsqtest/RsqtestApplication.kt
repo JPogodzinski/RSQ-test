@@ -6,6 +6,7 @@ import org.springframework.boot.runApplication
 @SpringBootApplication
 class RsqtestApplication
 
-fun main(args: Array<String>) {
+fun main(args: Array<String>)
+{
     runApplication<RsqtestApplication>(*args)
 }
