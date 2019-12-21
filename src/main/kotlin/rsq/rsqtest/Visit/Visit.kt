@@ -6,5 +6,6 @@ import javax.persistence.*
 @Entity
 data class Visit(var date:LocalDate, var time: LocalTime, var place:String) {
     @Id
-    var id: Int = TODO("initialize me")
+    @GeneratedValue
+    var id: Int = 0
 }

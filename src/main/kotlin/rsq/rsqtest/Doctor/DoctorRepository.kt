@@ -1,7 +1,5 @@
 package rsq.rsqtest.Doctor
 
-import org.springframework.stereotype.Repository
+import org.springframework.data.jpa.repository.JpaRepository
 
-@Repository
-class DoctorRepository {
-}
+interface DoctorRepository:JpaRepository<Doctor,Int>

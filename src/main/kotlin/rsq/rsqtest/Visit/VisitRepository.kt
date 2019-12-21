@@ -1,7 +1,6 @@
 package rsq.rsqtest.Visit
 
-import org.springframework.stereotype.Repository
+import org.springframework.data.jpa.repository.JpaRepository
 
-@Repository
-class VisitRepository {
-}
+
+interface VisitRepository:JpaRepository<Visit, Int>
