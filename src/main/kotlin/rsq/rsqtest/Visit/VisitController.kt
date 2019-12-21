@@ -1,10 +1,13 @@
 package rsq.rsqtest.Visit
 
 import org.springframework.web.bind.annotation.*
+import rsq.rsqtest.Doctor.Doctor
 import rsq.rsqtest.Doctor.DoctorRepository
+import rsq.rsqtest.Patient.Patient
 import rsq.rsqtest.Patient.PatientRepository
 import java.time.LocalDate
 import java.time.LocalTime
+import java.util.*
 import javax.persistence.*
 
 
@@ -22,37 +25,33 @@ class VisitController(val repository: VisitRepository, val patientRepository: Pa
     fun getVisit(@PathVariable id:Int):Visit{
         return repository.getOne(id)
     }
-/*
-    @PostMapping("/add")
-    fun addVisit(@RequestBody getJson:Visit){
-        var newVisit:Visit
 
-        var date:LocalDate = LocalDate.parse(getJson.date.toString())
-        var time:LocalTime= LocalTime.parse(getJson.time.toString())
-        var place=getJson.place
-        var doctor=doctorRepository.findById(getJson.doctor.toString().toInt())
-        var patient=patientRepository.findById(getJson.patient.toString().toInt())
-        repository.save(newVisit(date,time, place, doctor,patient))
-    }
-*/
     @GetMapping("/patients/{id}")
     fun getVisitsbyPatient(@PathVariable id:Int): List<Visit> {
-        if(patientRepository.existsById(id))
-            return repository.findAll()
-        else
-            return repository.findAll()
-    }
+        var patient:Patient=patientRepository.findById(id)?: return repository.findAll()
 
-    /*@PutMapping("/{id}")
-    fun changeTime(@PathVariable id: Int, @RequestBody time: LocalTime){
-        val visit:Visit=repository.findById(id)
-        visit.time=time
-        repository.save(visit)
-    }*/
+        return repository.findAll(patient)
+    }
 
     @DeleteMapping("/delete/{id}")
     fun deleteVisit(@RequestBody id:Int) {
         repository.deleteById(id)
     }
 
+    @PostMapping("/add")
+    fun addVisit(@RequestBody newVisit: Map<String,String>){
+        var date:LocalDate= LocalDate.parse(newVisit.getValue("date"))
+        var time: LocalTime= LocalTime.parse(newVisit.getValue("time"))
+        var place:String=newVisit.getValue("place")
+        var idDoc:Int=newVisit.getValue("doctor").toInt()
+        var doctor: Doctor =doctorRepository.findById(idDoc) ?: TODO()
+        var idPat:Int =newVisit.getValue("patient").toInt()
+        var patient: Patient=doctorRepository.findById(idPat)?: TODO()
+        repository.save(Visit(date,time,place,doctor,patient))
+    }
+
+    @PatchMapping("/{id}")
+    fun changeTime(@PathVariable id: Int, @RequestBody time: LocalTime){
+        val editVisit = repository.find<Visit>(id)
+    }
 }
