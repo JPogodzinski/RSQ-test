@@ -7,14 +7,11 @@ import rsq.rsqtest.Patient.Patient
 
 @Entity
 data class Visit(var date:LocalDate, var time: LocalTime, var place:String,
-                 @OneToOne
-                 @JoinColumn
+                 @ManyToOne @JoinColumn
                  var doctor: Doctor,
-                 @OneToOne
-                 @JoinColumn
+                 @ManyToOne @JoinColumn
                  var patient: Patient)
 {
-    @Id
-    @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Int = 0
 }

@@ -5,7 +5,6 @@ import javax.persistence.*
 @Entity
 data class Patient(var firstName:String, var surname:String, var address:String)
 {
-    @Id
-    @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Int = 0
 }
