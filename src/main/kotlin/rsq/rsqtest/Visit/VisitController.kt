@@ -32,7 +32,7 @@ class VisitController(val repository: VisitRepository, val patientRepository: Pa
             return repository.findAll()
     }
 
-   /* @PutMapping("/{id}")
+    /*@PutMapping("/{id}")
     fun changeTime(@PathVariable id: Int, @RequestBody time: LocalTime){
         val visit:Visit=repository.findById(id)
         visit.time=time
