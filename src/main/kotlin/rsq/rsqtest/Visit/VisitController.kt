@@ -1,10 +1,12 @@
 package rsq.rsqtest.Visit
 
+import org.aspectj.bridge.MessageUtil.fail
 import org.springframework.web.bind.annotation.*
 import rsq.rsqtest.Doctor.Doctor
 import rsq.rsqtest.Doctor.DoctorRepository
 import rsq.rsqtest.Patient.Patient
 import rsq.rsqtest.Patient.PatientRepository
+import java.lang.IllegalArgumentException
 import java.time.LocalDate
 import java.time.LocalTime
 import java.util.*
@@ -27,10 +29,18 @@ class VisitController(val repository: VisitRepository, val patientRepository: Pa
     }
 
     @GetMapping("/patients/{id}")
-    fun getVisitsbyPatient(@PathVariable id:Int): List<Visit> {
-        var patient:Patient=patientRepository.findById(id)?: return repository.findAll()
+    fun getVisitsByPatient(@PathVariable id:Int): List<Visit> {
+        val pat:Patient=patientRepository.findById(id) as Patient
+        var listVisits:MutableList<Visit> = repository.findAll()
+        listVisits.forEach{
+            it.patient!=pat
+            listVisits.remove(it)
+        }
 
-        return repository.findAll(patient)
+        if(listVisits!=null)
+            return listVisits
+        else
+            return repository.findAll()
     }
 
     @DeleteMapping("/delete/{id}")
@@ -40,18 +50,19 @@ class VisitController(val repository: VisitRepository, val patientRepository: Pa
 
     @PostMapping("/add")
     fun addVisit(@RequestBody newVisit: Map<String,String>){
-        var date:LocalDate= LocalDate.parse(newVisit.getValue("date"))
-        var time: LocalTime= LocalTime.parse(newVisit.getValue("time"))
-        var place:String=newVisit.getValue("place")
-        var idDoc:Int=newVisit.getValue("doctor").toInt()
-        var doctor: Doctor =doctorRepository.findById(idDoc) ?: TODO()
-        var idPat:Int =newVisit.getValue("patient").toInt()
-        var patient: Patient=doctorRepository.findById(idPat)?: TODO()
+        val date:LocalDate= LocalDate.parse(newVisit.getValue("date"))
+        val time: LocalTime= LocalTime.parse(newVisit.getValue("time"))
+        val place:String=newVisit.getValue("place")
+        val idDoc:Int=newVisit.getValue("doctor").toInt()
+        val doctor: Doctor =doctorRepository.findById(idDoc) as Doctor? ?: throw IllegalArgumentException("Wrong Doctor ID")
+        val idPat:Int =newVisit.getValue("patient").toInt()
+        val patient: Patient=doctorRepository.findById(idPat) as Patient? ?: throw IllegalArgumentException("Wrong Doctor ID")
         repository.save(Visit(date,time,place,doctor,patient))
     }
 
     @PatchMapping("/{id}")
     fun changeTime(@PathVariable id: Int, @RequestBody time: LocalTime){
-        val editVisit = repository.find<Visit>(id)
+        val editVisit : Visit = repository.findById(id) as Visit
+
     }
 }
