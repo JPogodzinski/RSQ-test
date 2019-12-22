@@ -1,6 +1,5 @@
 package rsq.rsqtest.Visit
 
-import org.aspectj.bridge.MessageUtil.fail
 import org.springframework.web.bind.annotation.*
 import rsq.rsqtest.Doctor.Doctor
 import rsq.rsqtest.Doctor.DoctorRepository
@@ -15,7 +14,8 @@ import javax.persistence.*
 
 @RestController
 @RequestMapping("/visits")
-class VisitController(val repository: VisitRepository, val patientRepository: PatientRepository, val  doctorRepository: DoctorRepository)
+class VisitController(val repository: VisitRepository, val patientRepository: PatientRepository,
+                      val  doctorRepository: DoctorRepository)
 {
 
     @GetMapping
@@ -54,9 +54,9 @@ class VisitController(val repository: VisitRepository, val patientRepository: Pa
         val time: LocalTime= LocalTime.parse(newVisit.getValue("time"))
         val place:String=newVisit.getValue("place")
         val idDoc:Int=newVisit.getValue("doctor").toInt()
-        val doctor: Doctor =doctorRepository.findById(idDoc) as Doctor? ?: throw IllegalArgumentException("Wrong Doctor ID")
+        val doctor: Doctor =doctorRepository.findById(idDoc).orElseThrow()
         val idPat:Int =newVisit.getValue("patient").toInt()
-        val patient: Patient=doctorRepository.findById(idPat) as Patient? ?: throw IllegalArgumentException("Wrong Doctor ID")
+        val patient: Patient=patientRepository.findById(idPat).orElseThrow()
         repository.save(Visit(date,time,place,doctor,patient))
     }
 

@@ -7,11 +7,11 @@ import rsq.rsqtest.Patient.Patient
 
 @Entity
 data class Visit(var date:LocalDate, var time: LocalTime, var place:String,
-                 @ManyToOne (fetch = FetchType.LAZY)
-                 @JoinColumn //(name = "id")
+                 @ManyToOne (fetch = FetchType.EAGER)
+                 @JoinColumn (name = "docId")
                  var doctor: Doctor,
-                 @ManyToOne (fetch = FetchType.LAZY)
-                 @JoinColumn //(name = "id")
+                 @ManyToOne (fetch = FetchType.EAGER)
+                 @JoinColumn (name = "patJd")
                  var patient: Patient)
 {
     @Id
