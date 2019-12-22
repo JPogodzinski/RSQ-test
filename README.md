@@ -1,20 +1,20 @@
-#RSQ test
+# RSQ test
 
-##List of all endpoints:
+## List of all endpoints:
 Works on localhost:8080
-###Patient endpoints:
+### Patient endpoints:
 localhost:8080/patients - get list of all patients
 localhost:8080/patients/{id} - get patient by id
 localhost:8080/patients/add - add new patient in  JSON format {name, surname, address}
 localhost:8080/patients/delete/{id} - remove patient
 
-###Doctor endpoints
+### Doctor endpoints
 localhost:8080/doctors - get list of all doctors
 localhost:8080/doctors/{id} - get doctor by id
 localhost:8080/doctors/add - add new doctor in  JSON format {name, surname, specialization}
 localhost:8080/doctors/delete/{id} - remove doctor
 
-###Visit endpoints
+### Visit endpoints
 localhost:8080/visits - get list of all visits
 localhost:8080/visits/{id} - get visit by id
 localhost:8080/visits/patients/{id} - get all patient visits by patient id
