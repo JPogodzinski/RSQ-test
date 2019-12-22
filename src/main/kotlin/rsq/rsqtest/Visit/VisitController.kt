@@ -37,7 +37,7 @@ class VisitController(val repository: VisitRepository, val patientRepository: Pa
             listVisits.remove(it)
         }
 
-        if(listVisits!=null)
+        if(listVisits.isNotEmpty())
             return listVisits
         else
             return repository.findAll()
@@ -67,4 +67,6 @@ class VisitController(val repository: VisitRepository, val patientRepository: Pa
         oldVisit.setNewTime(time)
         repository.save(oldVisit)
     }
+
+
 }
