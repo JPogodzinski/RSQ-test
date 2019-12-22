@@ -30,7 +30,7 @@ class VisitController(val repository: VisitRepository, val patientRepository: Pa
 
     @GetMapping("/patients/{id}")
     fun getVisitsByPatient(@PathVariable id:Int): List<Visit> {
-        val pat:Patient=patientRepository.findById(id) as Patient
+        val pat:Patient=patientRepository.findById(id).orElseThrow()
         var listVisits:MutableList<Visit> = repository.findAll()
         listVisits.forEach{
             it.patient!=pat
@@ -61,8 +61,10 @@ class VisitController(val repository: VisitRepository, val patientRepository: Pa
     }
 
     @PatchMapping("/{id}")
-    fun changeTime(@PathVariable id: Int, @RequestBody time: LocalTime){
-        val editVisit : Visit = repository.findById(id) as Visit
-
+    fun changeTime(@PathVariable id: Int, @RequestBody text: Map<String,String>){
+        val time:LocalTime= LocalTime.parse(text.getValue("time"))
+        var oldVisit : Visit = repository.findById(id).orElseThrow()
+        oldVisit.setNewTime(time)
+        repository.save(oldVisit)
     }
 }

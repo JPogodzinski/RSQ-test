@@ -14,8 +14,13 @@ data class Visit(var date:LocalDate, var time: LocalTime, var place:String,
                  @JoinColumn (name = "patJd")
                  var patient: Patient)
 {
+    fun setNewTime(newTime: LocalTime) {
+        time=newTime
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Int = 0
+
 }
 
