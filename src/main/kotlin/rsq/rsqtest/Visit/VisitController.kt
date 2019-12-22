@@ -29,18 +29,8 @@ class VisitController(val repository: VisitRepository, val patientRepository: Pa
     }
 
     @GetMapping("/patients/{id}")
-    fun getVisitsByPatient(@PathVariable id:Int): List<Visit> {
-        val pat:Patient=patientRepository.findById(id).orElseThrow()
-        var listVisits:MutableList<Visit> = repository.findAll()
-        listVisits.forEach{
-            it.patient!=pat
-            listVisits.remove(it)
-        }
-
-        if(listVisits.isNotEmpty())
-            return listVisits
-        else
-            return repository.findAll()
+    fun getVisitsByPatient(@PathVariable id:Int):List<Visit>{
+        return repository.findAllByPatientPatId(id)
     }
 
     @DeleteMapping("/delete/{id}")

@@ -24,5 +24,6 @@ data class Visit(var date:LocalDate, var time: LocalTime, var place:String,
     fun setNewTime(newTime: LocalTime) {
         time=newTime
     }
+
 }
 
